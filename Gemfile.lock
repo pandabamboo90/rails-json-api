@@ -72,6 +72,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
+    api-pagination (4.8.2)
     bcrypt (3.1.16)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
@@ -210,6 +211,7 @@ GEM
     websocket-driver (0.7.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    will_paginate (3.3.0)
     zeitwerk (2.4.2)
 
 PLATFORMS
@@ -217,6 +219,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_policy
+  api-pagination
   bootsnap (>= 1.4.4)
   byebug
   capistrano-db-tasks
@@ -238,6 +241,7 @@ DEPENDENCIES
   tzinfo-data
   validates_overlap!
   validates_timeliness (~> 6.0.0.alpha1)
+  will_paginate
 
 RUBY VERSION
    ruby 3.0.1p64

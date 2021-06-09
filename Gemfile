@@ -20,6 +20,10 @@ gem 'rack-cors'
 gem "devise"
 gem "devise_token_auth"
 
+# Pagination
+gem "will_paginate"
+gem "api-pagination"
+
 # Authorization
 gem "active_policy"
 
