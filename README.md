@@ -1,24 +1,22 @@
-# README
+# rails-json-api
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Introduction
+This project is collection of config / gems / tools for quickstart developing Rails API follow JSON API spec.
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- [ ] Authentication
+- [ ] Authorization
+- [ ] Upload file
+- [ ] Soft delete Models
+- [ ] JSON API serializer
+- [ ] Semantic logging
+- [ ] Extend Active Record validations
+- [ ] Eager loading Active Record automatically
+- [ ] Test, send mail in local
 
-* System dependencies
+## Installation
 
-* Configuration
+## Contribution
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## License
