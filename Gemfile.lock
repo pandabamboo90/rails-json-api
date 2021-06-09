@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/pandabamboo90/validates_overlap.git
+  revision: 562186855414c5245cf9d2c51fd0aa65041987cb
+  specs:
+    validates_overlap (1.0.1)
+      rails (>= 6.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -39,6 +46,7 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_policy (0.1.3)
     activejob (6.1.3.2)
       activesupport (= 6.1.3.2)
       globalid (>= 0.3.6)
@@ -60,18 +68,54 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
+    airbrussh (1.4.0)
+      sshkit (>= 1.6.1, != 1.7.0)
+    bcrypt (3.1.16)
     bootsnap (1.7.5)
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.3)
+    capistrano (3.16.0)
+      airbrussh (>= 1.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-db-tasks (0.6)
+      capistrano (>= 3.0.0)
     concurrent-ruby (1.1.9)
+    content_disposition (1.0.0)
     crass (1.0.6)
+    devise (4.8.0)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 4.1.0)
+      responders
+      warden (~> 1.2.3)
+    devise_token_auth (1.1.5)
+      bcrypt (~> 3.0)
+      devise (> 3.5.2, < 5)
+      rails (>= 4.2.0, < 6.2)
+    discard (1.2.0)
+      activerecord (>= 4.2, < 7)
+    down (5.2.2)
+      addressable (~> 2.5)
     erubi (1.10.0)
     ffi (1.15.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
+    image_processing (1.12.1)
+      mini_magick (>= 4.9.5, < 5)
+      ruby-vips (>= 2.0.17, < 3)
+    jsonapi-serializer (2.2.0)
+      activesupport (>= 4.2)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -82,17 +126,26 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (1.0.1)
     method_source (1.0.0)
+    mini_magick (4.11.0)
     mini_mime (1.0.3)
     minitest (5.14.4)
     msgpack (1.4.2)
+    net-scp (3.0.0)
+      net-ssh (>= 2.6.5, < 7.0.0)
+    net-ssh (6.1.0)
     nio4r (2.5.7)
     nokogiri (1.11.7-x86_64-darwin)
       racc (~> 1.4)
+    oj (3.11.5)
+    orm_adapter (0.5.0)
     pg (1.2.3)
+    public_suffix (4.0.6)
     puma (5.3.2)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
+    rack-cors (1.1.1)
+      rack (>= 2.0.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.1.3.2)
@@ -125,6 +178,16 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    responders (3.0.1)
+      actionpack (>= 5.0)
+      railties (>= 5.0)
+    ruby-vips (2.1.2)
+      ffi (~> 1.12)
+    semantic_logger (4.7.4)
+      concurrent-ruby (~> 1.0)
+    shrine (3.3.0)
+      content_disposition (~> 1.0)
+      down (~> 5.1)
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -133,9 +196,17 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sshkit (1.21.2)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     thor (1.1.0)
+    timeliness (0.4.4)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    validates_timeliness (6.0.0.alpha1)
+      timeliness (>= 0.3.10, < 1)
+    warden (1.2.9)
+      rack (>= 2.0.9)
     websocket-driver (0.7.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -145,14 +216,28 @@ PLATFORMS
   x86_64-darwin-18
 
 DEPENDENCIES
+  active_policy
   bootsnap (>= 1.4.4)
   byebug
+  capistrano-db-tasks
+  devise
+  devise_token_auth
+  discard (~> 1.2)
+  image_processing (~> 1.8)
+  jsonapi-serializer
+  letter_opener
   listen (~> 3.3)
+  oj
   pg (~> 1.1)
   puma (~> 5.0)
+  rack-cors
   rails (~> 6.1.3, >= 6.1.3.2)
+  semantic_logger
+  shrine (~> 3.0)
   spring
   tzinfo-data
+  validates_overlap!
+  validates_timeliness (~> 6.0.0.alpha1)
 
 RUBY VERSION
    ruby 3.0.1p64

@@ -9,16 +9,37 @@ gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.7'
-# Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
+
+# Use Devise as authentication solution
+gem "devise"
+gem "devise_token_auth"
+
+# Authorization
+gem "active_policy"
+
+# Soft-delete
+gem 'discard', '~> 1.2'
+
+# Use Shrine as image uploader
+gem "shrine", "~> 3.0"
+gem "image_processing", "~> 1.8"
+
+# For comparing time in Ruby
+gem 'validates_overlap', github: 'pandabamboo90/validates_overlap'
+gem 'validates_timeliness', '~> 6.0.0.alpha1'
+
+# Use Fast JSON API serializer for Ruby Objects.
+gem "oj"
+gem 'jsonapi-serializer'
+
+# Replace Rails default logger
+gem 'semantic_logger'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -29,6 +50,12 @@ group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  # For backup & replicate database
+  gem "capistrano-db-tasks", require: false
+
+  # For testing sending mail in local
+  gem "letter_opener"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

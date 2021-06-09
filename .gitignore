@@ -22,3 +22,9 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+**/*.pem
+**/*.credentials.csv
+/config/credentials/*.key
+
+# Ignore IDE conigs
+.idea
