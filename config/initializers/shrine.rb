@@ -1,13 +1,13 @@
 require "shrine"
 require "shrine/storage/file_system"
-require "shrine/storage/s3"
+# require "shrine/storage/s3"
 
-s3_options = {
-  bucket: Rails.application.credentials.dig(:s3, :bucket), # required
-  access_key_id: Rails.application.credentials.dig(:s3, :access_key_id),
-  secret_access_key: Rails.application.credentials.dig(:s3, :secret_access_key),
-  region: Rails.application.credentials.dig(:s3, :region),
-}
+# s3_options = {
+#   bucket: Rails.application.credentials.dig(:s3, :bucket), # required
+#   access_key_id: Rails.application.credentials.dig(:s3, :access_key_id),
+#   secret_access_key: Rails.application.credentials.dig(:s3, :secret_access_key),
+#   region: Rails.application.credentials.dig(:s3, :region),
+# }
 
 Shrine.storages = if Rails.env.development? || Rails.env.test?
   {
@@ -16,8 +16,8 @@ Shrine.storages = if Rails.env.development? || Rails.env.test?
   }
 else
   {
-    cache: Shrine::Storage::S3.new(prefix: "cache", **s3_options), # temporary
-    store: Shrine::Storage::S3.new(**s3_options) # permanent
+    # cache: Shrine::Storage::S3.new(prefix: "cache", **s3_options), # temporary
+    # store: Shrine::Storage::S3.new(**s3_options) # permanent
   }
 end
 

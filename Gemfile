@@ -20,12 +20,12 @@ gem 'rack-cors'
 gem "devise"
 gem "devise_token_auth"
 
+# Authorization
+gem "action_policy"
+
 # Pagination
 gem "will_paginate"
 gem "api-pagination"
-
-# Authorization
-gem "active_policy"
 
 # Soft-delete
 gem 'discard', '~> 1.2'
@@ -44,6 +44,11 @@ gem 'jsonapi-serializer'
 
 # Replace Rails default logger
 gem 'semantic_logger'
+
+# Structure your apps seed data instead of having it all dumped into one large file
+gem 'seedbank'
+
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
