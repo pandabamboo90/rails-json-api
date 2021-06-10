@@ -60,6 +60,10 @@ group :development do
 
   # For testing sending mail in local
   gem "letter_opener"
+
+  # Clean up migration files
+  gem 'squasher', '>= 0.6.2'
+  gem 'annotate'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
