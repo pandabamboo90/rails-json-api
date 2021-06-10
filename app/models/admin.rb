@@ -52,8 +52,8 @@ class Admin < ApplicationRecord
 
   # Validations
   validates :name, :mobile_phone, presence: true
-  validates :mobile_phone, uniqueness: {case_sensitive: true}, length: 9..20
+  validates :mobile_phone, uniqueness: {case_sensitive: true}, length: 9..20, if: :mobile_phone_changed?
   # Hack to show email uniqueness error correctly instead of using Devise validation
-  validates :email, uniqueness: {case_sensitive: true}, on: :update
+  validates :email, uniqueness: {case_sensitive: true}, on: :update, if: :email_changed?
 
 end

@@ -1,5 +1,5 @@
 class BaseSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
 
   def self.image_attribute(model)
     if model.image&.exists?
