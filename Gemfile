@@ -48,7 +48,12 @@ gem 'semantic_logger'
 # Structure your apps seed data instead of having it all dumped into one large file
 gem 'seedbank'
 
+# For generating fake data
 gem 'faker'
+
+# Gems for logging system
+gem 'amazing_print'
+gem 'rails_semantic_logger'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
