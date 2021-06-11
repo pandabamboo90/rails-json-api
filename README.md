@@ -19,4 +19,15 @@ This project is collection of config / gems / tools for quickstart developing Ra
 
 ## Contribution
 
+## Semantic Versioning
+Ransack attempts to follow semantic versioning in the format of `x.y.z`, where:
+
+`x` stands for a major version (new features that are not backward-compatible).
+
+`y` stands for a minor version (new features that are backward-compatible).
+
+`z` stands for a patch (bug fixes).
+
+In other words: `Major.Minor.Patch.`
+
 ## License
