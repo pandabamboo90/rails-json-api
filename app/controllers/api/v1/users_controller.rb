@@ -1,8 +1,8 @@
 module Api
   module V1
-    class UsersController < UserAuthController
+    class UsersController < MemberAuthController
       before_action :set_serializer_options, :set_serializer_klass
-      before_action :set_user, only: [:show, :update, :destroy]
+      before_action :set_user, except: [:index]
 
       # GET /users
       def index
@@ -57,6 +57,22 @@ module Api
         render json: @serializer_klass.new(@user, @serializer_options)
       end
 
+      # DELETE /users/1
+      def destroy
+        @user.discard
+        @serializer_options[:meta] = { message: 'User destroyed !'}
+
+        render json: @serializer_klass.new(@user, @serializer_options)
+      end
+
+      # PUT /users/1/restore
+      def restore
+        @user.undiscard
+        @serializer_options[:meta] = { message: 'User restored !'}
+
+        render json: @serializer_klass.new(@user, @serializer_options)
+      end
+
       # ----------------------------------------------------------------------------------------------------
       # Private methods
       # ----------------------------------------------------------------------------------------------------
@@ -90,6 +106,7 @@ module Api
       def set_serializer_options
         @serializer_options = {}
         @serializer_options[:params] = {}
+        @serializer_options[:meta] = {}
         @serializer_options[:include] = []
       end
     end

@@ -4,16 +4,16 @@ class AdminPolicy < ApplicationPolicy
   # `record` is a target object (model we want to update)
 
   def index?
-    user.admin?
+    admin?
   end
 
   def show?
     # Only owner can see detail
-    user.id == record.id
+    owner_updating_itself?
   end
 
   def update?
     # Only owner can see update
-    user.id == record.id
+    owner_updating_itself?
   end
 end

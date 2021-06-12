@@ -28,7 +28,11 @@ Rails.application.routes.draw do
       #
 
       resources :admins
-      resources :users
+      resources :users do
+        member do
+          put "restore", to: "users#restore"
+        end
+      end
     end
   end
 end

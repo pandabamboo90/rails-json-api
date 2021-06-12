@@ -16,4 +16,12 @@ class ApplicationPolicy < ActionPolicy::Base
   # def owner?
   #   record.user_id == user.id
   # end
+
+  def admin?
+    user.is_a?(Admin)
+  end
+
+  def owner_updating_itself?
+    user.id == record.id
+  end
 end
