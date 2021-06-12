@@ -1,45 +1,60 @@
 module Api
   module V1
     class AdminsController < AdminAuthController
+      before_action :set_serializer_options, :set_serializer_klass
       before_action :set_admin, only: [:show, :update, :destroy]
 
       # GET /admins
       def index
         @admins = Admin.where.not(id: current_user.id)
-        # authorize! @admins, context: {user: current_user}
         authorize! @admins
 
         if admin_filter_params[:keyword].present?
           @admins = @admins.where("name LIKE :keyword", keyword: "%#{admin_filter_params[:keyword]}%")
-            .or(Admin.where(email: admin_filter_params[:keyword]))
-            .or(Admin.where(mobile_phone: admin_filter_params[:keyword]))
+                           .or(Admin.where(email: admin_filter_params[:keyword]))
+                           .or(Admin.where(mobile_phone: admin_filter_params[:keyword]))
         end
 
         @admins = @admins.order(sort_params)
         @admins = paginate @admins
         options = SerializerOptions.new(request, @admins).build_options
 
-        render json: AdminSerializer.new(@admins, options)
+        render json: @serializer_klass.new(@admins, options)
       end
 
       # GET /admins/1
       def show
-        render json: AdminSerializer.new(@admin)
+        render json: @serializer_klass.new(@admin, @serializer_options)
       end
 
       # POST /admins
       def create
-        @admin = Admin.new
-        @admin = update_admin_attributes(@admin)
+        @admin = Admin.new(jsonapi_deserialize(params, only: [:name, :mobile_phone, :email, :password]))
 
-        render json: AdminSerializer.new(@admin), status: :created
+        # Handle image upload
+        image_data = params.dig(:data, :attributes, :image, :data)
+        @admin.image_data_uri = image_data if image_data.present?
+
+        @admin.save!
+
+        render json: @serializer_klass.new(@admin, @serializer_options)
       end
 
       # PATCH/PUT /admins/1
       def update
-        @admin = update_admin_attributes(@admin)
+        @admin.assign_attributes(jsonapi_deserialize(params, only: [:name]))
 
-        render json: AdminSerializer.new(@admin), status: :ok
+        # Handle image upload
+        image_data = params.dig(:data, :attributes, :image, :data)
+        @admin.image_data_uri = image_data if image_data.present?
+
+        # Update status lock/unlock
+        param_locked = params.dig(:data, :attributes, :locked)
+        param_locked.present? ? @admin.lock : @admin.unlock
+
+        @admin.save!
+
+        render json: @serializer_klass.new(@admin, @serializer_options)
       end
 
       # ----------------------------------------------------------------------------------------------------
@@ -48,48 +63,34 @@ module Api
 
       private
 
-      def update_admin_attributes(admin)
-        return if admin.blank?
-
-        ActiveRecord::Base.transaction do
-          admin = assign_model_attributes(@admin, model_attributes: admin_attributes.except(:image))
-          admin.image_data_uri = admin_attributes.dig(:image, :data) if admin_attributes.dig(:image, :data).present?
-          admin.save!
-        end
-
-        admin
-      end
-
       # Use callbacks to share common setup or constraints between actions.
       def set_admin
         @admin = Admin.find(params[:id])
-      end
-
-      # Only allow a trusted parameter "white list" through.
-      def admin_params
-        params.require(:data).permit(:type, {
-          attributes: [:name, :email,
-            :mobile_phone, :password, :locked,
-            image: [:data, :url]]
-        })
-      end
-
-      def admin_attributes
-        admin_params[:attributes] || {}
+        authorize! @admin, to: :show?
       end
 
       def admin_filter_params
         params.permit(filter: [:keyword])
-          .values
-          .first
-          .to_h
+              .values
+              .first
+              .to_h
       end
 
       def sort_params
-        default_sort_field = {created_at: :desc}
+        default_sort_field = { created_at: :desc }
         sortable_fields = [:id, :name, :created_at, :email, :mobile_phone]
 
         SortParams.sorted_fields(params[:sort], sortable_fields, default_sort_field)
+      end
+
+      def set_serializer_klass
+        @serializer_klass = AdminSerializer
+      end
+
+      def set_serializer_options
+        @serializer_options = {}
+        @serializer_options[:params] = {}
+        @serializer_options[:include] = []
       end
     end
   end

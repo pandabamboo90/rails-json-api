@@ -11,7 +11,7 @@ module LockableConcern
     }
 
     def lock
-      assign_attributes(locked_at: Time.zone.now)
+      assign_attributes(locked_at: Time.current)
     end
 
     def unlock

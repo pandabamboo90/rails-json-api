@@ -1,16 +1,19 @@
 class AdminPolicy < ApplicationPolicy
+  # == Info ==
+  # `user` is a performing subject,
+  # `record` is a target object (model we want to update)
+
   def index?
-    true
+    user.admin?
   end
 
-  # everyone can see any post
   def show?
-    true
+    # Only owner can see detail
+    user.id == record.id
   end
 
   def update?
-    # `user` is a performing subject,
-    # `record` is a target object (post we want to update)
-    user.admin? || (user.id == record.user_id)
+    # Only owner can see update
+    user.id == record.id
   end
 end

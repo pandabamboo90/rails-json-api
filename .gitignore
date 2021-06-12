@@ -28,3 +28,6 @@
 
 # Ignore IDE conigs
 .idea
+
+# Ignore uncessary assets
+public/uploads

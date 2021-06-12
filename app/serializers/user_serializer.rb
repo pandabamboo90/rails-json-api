@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: admins
+# Table name: users
 #
 #  id                     :bigint           not null, primary key
 #  allow_password_change  :boolean          default(FALSE)
@@ -29,13 +29,12 @@
 #
 # Indexes
 #
-#  index_admins_on_email                 (email) UNIQUE
-#  index_admins_on_reset_password_token  (reset_password_token) UNIQUE
-#  index_admins_on_uid_and_provider      (uid,provider) UNIQUE
-#  index_admins_on_unlock_token          (unlock_token) UNIQUE
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
+#  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
-
-class AdminSerializer < BaseSerializer
+class UserSerializer < BaseSerializer
   attributes :name, :email, :mobile_phone,
              :locked, :locked_at,
              :created_at, :updated_at, :deleted_at
