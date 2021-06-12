@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
-  include JsonApiResponseConcern
+  include JsonApiResponses
+  include JsonApiErrorsHandlers
   include ActionPolicy::Controller
-
-  # before_action :set_api_error_code
+  include JSONAPI::Deserialization
 
   def index
     render json: {message: "API is online"}
@@ -23,45 +23,5 @@ class ApplicationController < ActionController::API
     end
 
     model
-  end
-
-  # def set_api_error_code
-  #   ErrorSerializer.error_code(nil)
-  # end
-
-  # rescue_from StandardError do |exception|
-  #   render json: { errors: ErrorSerializer.standard_error(exception.message) },
-  #          status: 500
-  # end
-
-  rescue_from ArgumentError,
-    ActionController::ParameterMissing do |exception|
-    render json: {errors: ErrorSerializer.bad_request_error(exception.message)},
-           status: 400
-  end
-
-  rescue_from ActionPolicy::Unauthorized do |exception|
-    render json: {errors: ErrorSerializer.forbidden_access_error(exception.message)},
-           status: 403
-  end
-
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-    render json: {errors: ErrorSerializer.record_not_found_error(exception.message)},
-           status: 404
-  end
-
-  rescue_from ActiveRecord::RecordNotUnique do |exception|
-    render json: {errors: ErrorSerializer.record_not_unique_error(exception.message)},
-           status: 409
-  end
-
-  rescue_from ActiveRecord::RecordInvalid do |exception|
-    render json: {errors: ErrorSerializer.record_invalid_errors(exception.record)},
-           status: 422
-  end
-
-  rescue_from MiniMagick::Error, ImageProcessing::Error do |e|
-    render json: {errors: ErrorSerializer.image_type_is_not_valid},
-           status: 422
   end
 end

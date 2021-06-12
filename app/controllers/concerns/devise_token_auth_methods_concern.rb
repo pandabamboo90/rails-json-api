@@ -1,6 +1,6 @@
 module DeviseTokenAuthMethodsConcern
   include ActiveSupport::Concern
-  include JsonApiResponseConcern
+  include JsonApiErrors
 
   def render_resource(resource)
     serializer_options = {}
@@ -26,29 +26,20 @@ module DeviseTokenAuthMethodsConcern
         }
       ]
     }
-    if app_error_code.present?
-      if APP_ERROR_CODES[app_error_code].blank?
-        raise StandardError.new "APP_ERROR_CODES[#{app_error_code}] not existed."
-      end
-
-      ErrorSerializer.error_code(app_error_code)
-    end
 
     case status
     when 400
-      response[:errors] = ErrorSerializer.bad_request_error(message)
+      raise ArgumentError.new message
     when 401
-      response[:errors] = ErrorSerializer.unauthenticated_error(message)
+      raise Unauthenticated.new message, app_error_code
     when 404
-      response[:errors] = ErrorSerializer.record_not_found_error(message)
+      raise ActiveRecord::RecordNotFound.new message
     when 405
-      response[:errors] = ErrorSerializer.method_not_supported_error(message)
+      raise MethodNotSupported.new message
     when 422
-      response[:errors] = ErrorSerializer.record_invalid_errors(resource)
+      raise ActiveRecord::RecordInvalid.new resource
     else
-      response
+      render json: response, status: status
     end
-
-    render json: response, status: status
   end
 end

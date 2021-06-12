@@ -98,5 +98,5 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   # Semantic logger configs
-  config.semantic_logger.backtrace_level = :error
+  # config.semantic_logger.backtrace_level = :error
 end

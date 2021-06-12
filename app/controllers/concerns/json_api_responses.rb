@@ -1,4 +1,4 @@
-module JsonApiResponseConcern
+module JsonApiResponses
   include ActiveSupport::Concern
 
   def render_success_message(status: 200, message: "Success")

@@ -41,9 +41,7 @@ gem 'validates_timeliness', '~> 6.0.0.alpha1'
 # Use Fast JSON API serializer for Ruby Objects.
 gem "oj"
 gem 'jsonapi-serializer'
-
-# Replace Rails default logger
-gem 'semantic_logger'
+gem 'jsonapi.rb'
 
 # Structure your apps seed data instead of having it all dumped into one large file
 gem 'seedbank'

@@ -58,5 +58,6 @@ Rails.application.configure do
 
   # Semantic logger configs
   config.semantic_logger.backtrace_level = :info
+  config.log_level = :debug
   config.rails_semantic_logger.ap_options = {multiline: true}
 end
