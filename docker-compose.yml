@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    entrypoint: ./entrypoint.sh
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/src
+    depends_on:
+      - db
+    links:
+      - db
+    tty: true
+    stdin_open: true
+    environment:
+      RAILS_ENV: ${RAILS_ENV}
+  db:
+    image: postgres:13.3-alpine
+    volumes:
+      - ~/docker/postgres:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
