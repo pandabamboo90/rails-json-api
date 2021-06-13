@@ -109,6 +109,11 @@ Gem | Info
 --- | ----
 [letter_opener](https://github.com/ryanb/letter_opener) | Preview mail in the browser instead of sending.
 
+### Automatically eager loading associations !
+Gem | Info
+--- | ----
+[goldiloader](https://github.com/salsify/goldiloader) | Wouldn't it be awesome if ActiveRecord didn't make you think about eager loading and it just did the "right" thing by default? With Goldiloader it can!
+
 ------------------------------------------------------------------------
 
 ## Contribution
