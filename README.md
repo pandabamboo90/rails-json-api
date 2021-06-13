@@ -2,6 +2,7 @@
 
 ## Introduction
 This project is collection of config / gems / tools for quickstart developing Rails API follow JSON API spec.
+No test framework is included, you should add it by yourself, your choice ! :)
 
 ### Table of Contents
 
@@ -19,23 +20,46 @@ This project is collection of config / gems / tools for quickstart developing Ra
 - rbenv `latest`
 - ruby `>= 3.0.1`
 - postgres `latest`
+- docker `latest` (If you want to run with Docker)
 
 ------------------------------------------------------------------------
 
 ## Installation
 
+### Without Docker
 1. Clone the repo
    ```git
    git clone https://github.com/pandabamboo90/rails-json-api
    ```
 2. Run setup to prepare database
-   ```git
+   ```shell
    cd rails-json-api
    bin/setup
    ```
 3. Start the server
-   ```git
+   ```shell
    rails s
+   ```
+
+### Using Docker
+1. Clone the repo
+   ```git
+   git clone https://github.com/pandabamboo90/rails-json-api
+   ```
+2. Open `entrypoint.sh` and change CONTAINER_TYPE value to "SETUP", this will help you setup DB/migrations/seed data and run the project 1st time
+   ```shell
+   # entrypoint.sh
+   CONTAINER_TYPE=SETUP
+   ```
+3. Build the image and run container
+   ```shell
+   docker-compose build
+   docker-compose up
+   ```
+4. At this point your project is ready and should be up & running. Open `entrypoint.sh` and change CONTAINER_TYPE value to "WEB" for later to speed up the boot time
+   ```shell
+   # entrypoint.sh
+   CONTAINER_TYPE=WEB
    ```
 
 ------------------------------------------------------------------------
