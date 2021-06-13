@@ -20,7 +20,7 @@ module Api
         options = SerializerOptions.new(request, @users).build_options
         @serializer_options = @serializer_options.merge(options)
 
-        render json: @serializer_klass.new(@users, @serializer_options)
+        render json: @serializer_klass.new(@users.includes(:roles), @serializer_options)
       end
 
       # GET /users/1
