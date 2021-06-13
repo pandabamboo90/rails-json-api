@@ -49,6 +49,7 @@ Gem | Info
 ### Authorization
 Gem | Info
 --- | ---- 
+[rolify](https://github.com/RolifyCommunity/rolify) | Very simple Roles library without any authorization enforcement supporting scope on resource object
 [action_policy](https://github.com/palkan/action_policy) | Authorization framework for Ruby and Rails applications. Composable, extensible and performant
 
 ### Uploading file
