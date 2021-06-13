@@ -21,7 +21,9 @@ gem "devise"
 gem "devise_token_auth"
 
 # Authorization
+gem "rolify"
 gem "action_policy"
+# gem "rbac"
 
 # Pagination
 gem "will_paginate"

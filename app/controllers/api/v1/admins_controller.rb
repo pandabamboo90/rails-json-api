@@ -18,8 +18,9 @@ module Api
         @admins = @admins.order(sort_params)
         @admins = paginate @admins
         options = SerializerOptions.new(request, @admins).build_options
+        @serializer_options = @serializer_options.merge(options)
 
-        render json: @serializer_klass.new(@admins, options)
+        render json: @serializer_klass.new(@admins, @serializer_options)
       end
 
       # GET /admins/1

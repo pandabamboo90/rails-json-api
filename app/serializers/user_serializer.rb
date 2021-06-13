@@ -35,6 +35,9 @@
 #  index_users_on_unlock_token          (unlock_token) UNIQUE
 #
 class UserSerializer < BaseSerializer
+
+  has_many :roles, serializer: RoleSerializer
+
   attributes :name, :email, :mobile_phone, :image,
              :locked, :locked_at,
              :created_at, :updated_at, :deleted_at

@@ -18,8 +18,9 @@ module Api
         @users = @users.order(sort_params)
         @users = paginate @users
         options = SerializerOptions.new(request, @users).build_options
+        @serializer_options = @serializer_options.merge(options)
 
-        render json: @serializer_klass.new(@users, options)
+        render json: @serializer_klass.new(@users, @serializer_options)
       end
 
       # GET /users/1
@@ -107,7 +108,7 @@ module Api
         @serializer_options = {}
         @serializer_options[:params] = {}
         @serializer_options[:meta] = {}
-        @serializer_options[:include] = []
+        @serializer_options[:include] = [:roles]
       end
     end
   end

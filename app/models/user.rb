@@ -47,6 +47,16 @@ class User < ApplicationRecord
   # Uploaders
   include ImageUploader::Attachment(:image) # adds an `image` virtual attribute
 
+  # Enable role with Rolify gem
+  rolify :before_add => :before_add_role
+
+  def before_add_role(role)
+    role.display_name = role.name
+                            .split('_')
+                            .join(' ')
+                            .capitalize if role.display_name.blank?
+  end
+
   # Associations
   # ...
 
@@ -66,7 +76,7 @@ class User < ApplicationRecord
   end
 
   validates :email, :mobile_phone, presence: true
-  validates :mobile_phone, uniqueness: {case_sensitive: true}, length: 9..20, if: :mobile_phone_changed?
+  validates :mobile_phone, uniqueness: { case_sensitive: true }, length: 9..20, if: :mobile_phone_changed?
   # Hack to show email uniqueness error correctly instead of using Devise validation
-  validates :email, uniqueness: {case_sensitive: true}, on: :update, if: :email_changed?
+  validates :email, uniqueness: { case_sensitive: true }, on: :update, if: :email_changed?
 end
