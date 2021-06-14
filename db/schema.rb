@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_13_074144) do
+ActiveRecord::Schema.define(version: 2021_06_14_181922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(version: 2021_06_13_074144) do
     t.index ["unlock_token"], name: "index_admins_on_unlock_token", unique: true
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.string "display_name", null: false
+    t.text "description"
+    t.string "method", null: false
+    t.string "controller_path", null: false
+    t.string "action_name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["method", "controller_path", "action_name"], name: "idx_1", unique: true
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "display_name", null: false
     t.string "name", null: false
@@ -54,6 +65,14 @@ ActiveRecord::Schema.define(version: 2021_06_13_074144) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
+  end
+
+  create_table "roles_permissions", id: false, force: :cascade do |t|
+    t.bigint "role_id"
+    t.bigint "permission_id"
+    t.index ["permission_id"], name: "index_roles_permissions_on_permission_id"
+    t.index ["role_id", "permission_id"], name: "index_roles_permissions_on_role_id_and_permission_id", unique: true
+    t.index ["role_id"], name: "index_roles_permissions_on_role_id"
   end
 
   create_table "users", force: :cascade do |t|
