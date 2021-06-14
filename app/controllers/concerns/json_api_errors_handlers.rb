@@ -6,7 +6,8 @@ module JsonApiErrorsHandlers
     rescue_from ArgumentError,
                 ActionController::ParameterMissing, with: :bad_request_error
     rescue_from JsonApiErrors::Unauthenticated, with: :unauthenticated_error
-    rescue_from ActionPolicy::Unauthorized, with: :forbidden_access_error
+    rescue_from ActionPolicy::Unauthorized,
+                ActionPolicy::UnauthorizedAction, with: :forbidden_access_error
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_error
     rescue_from JsonApiErrors::MethodNotSupported, with: :method_not_supported_error
     rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique_error
@@ -32,19 +33,23 @@ module JsonApiErrorsHandlers
     end
 
     def unauthenticated_error(exception)
-      render_json_api_error(http_code: 401, detail: exception.message, error_code: exception.error_code)
+      render_json_api_error(http_code: 401, detail: exception.message, error_code: exception.dig("error_code"))
     end
 
     def forbidden_access_error(exception)
-      render_json_api_error(http_code: 403, detail: exception.message)
+      if exception.respond_to?(:policy)
+        render_json_api_error(http_code: 403, detail: exception.message, error_code: 4030)
+      else
+        render_json_api_error(http_code: 403, detail: exception.message, error_code: 4031)
+      end
     end
 
     def record_not_found_error(exception)
-      render_json_api_error(http_code: 404, detail: exception.message)
+      render_json_api_error(http_code: 404, detail: exception.message, error_code: exception.dig("error_code"))
     end
 
     def method_not_supported_error(exception)
-      render_json_api_error(http_code: 405, detail: exception.message)
+      render_json_api_error(http_code: 405, detail: exception.message, error_code: exception.dig("error_code"))
     end
 
     def record_invalid_errors(exception)
@@ -67,16 +72,16 @@ module JsonApiErrorsHandlers
     end
 
     def image_type_is_not_valid
-      render_json_api_error(http_code: 422, detail: "Image is invalid type")
+      render_json_api_error(http_code: 422, detail: "Image is invalid type", error_code: exception.dig("error_code"))
     end
 
     def record_not_unique_error(exception)
-      render_json_api_error(http_code: 409, detail: exception.message)
+      render_json_api_error(http_code: 409, detail: exception.message, error_code: exception.dig("error_code"))
     end
 
     def standard_error(exception)
       logger.fatal(exception.full_message)
-      render_json_api_error(http_code: 500, detail: exception.message)
+      render_json_api_error(http_code: 500, detail: exception.message, error_code: exception.dig("error_code"))
     end
 
     def render_json_api_error(http_code:, detail:, error_code: nil)

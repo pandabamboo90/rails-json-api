@@ -58,7 +58,8 @@ class User < ApplicationRecord
   end
 
   # Associations
-  # ...
+  # has_many :roles
+  has_many :permissions, through: :roles
 
   # Validations
   # ----------------------------------------------------------------------------------------

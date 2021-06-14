@@ -17,7 +17,8 @@
 #
 class Permission < ApplicationRecord
   # Associations
-  has_and_belongs_to_many :roles, join_table: :roles_permissions
+  has_many :role_permissions
+  has_many :roles, through: :role_permissions
 
   # Validations
   validates_presence_of :display_name, :method, :controller_path, :action_name

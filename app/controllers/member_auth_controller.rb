@@ -1,9 +1,12 @@
 class MemberAuthController < ApplicationController
   include DeviseTokenAuthMethodsConcern
+  include AuthorizeRolePermission
+
   authorize :user, through: :current_user
 
   devise_token_auth_group :api_v1_member, contains: [:api_v1_admin, :api_v1_user]
-  before_action :authenticate_api_v1_member!
+  before_action :authenticate_api_v1_member!,
+                :authorize_role_permission!
 
   def current_user
     current_api_v1_member
