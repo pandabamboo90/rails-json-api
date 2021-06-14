@@ -23,7 +23,6 @@ gem "devise_token_auth"
 # Authorization
 gem "rolify"
 gem "action_policy"
-# gem "rbac"
 
 # Pagination
 gem "will_paginate"
@@ -68,15 +67,24 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
-  # For backup & replicate database
-  gem "capistrano-db-tasks", require: false
-
   # For testing sending mail in local
   gem "letter_opener"
 
   # Clean up migration files
   gem 'squasher', '>= 0.6.2'
   gem 'annotate'
+
+  # Enforce coding style
+  gem "standard"
+
+  # Use Capistrano for deployment
+  gem "capistrano"
+  gem "capistrano-rails"
+  gem "capistrano-bundler"
+  gem "capistrano-rbenv"
+
+  # For backup & replicate database
+  gem "capistrano-db-tasks", require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

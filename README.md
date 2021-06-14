@@ -114,6 +114,23 @@ Gem | Info
 --- | ----
 [goldiloader](https://github.com/salsify/goldiloader) | Wouldn't it be awesome if ActiveRecord didn't make you think about eager loading and it just did the "right" thing by default? With Goldiloader it can!
 
+### Fake data & Seed data management
+Gem | Info
+--- | ----
+[faker](https://github.com/faker-ruby/faker) | A library for generating fake data such as names, addresses, and phone numbers.
+[seedbank](https://github.com/james2m/seedbank) | Seedbank allows you to structure your Rails seed data instead of having it all dumped into one large file.
+
+### Automation deployment & Database cloning
+Gem | Info
+--- | ----
+[capistrano](https://github.com/capistrano/capistrano) | A deployment automation tool built on Ruby, Rake, and SSH.
+[capistrano-db-tasks](https://github.com/sgruhier/capistrano-db-tasks) | Add database AND assets tasks to capistrano to a Rails project. It only works with capistrano 3
+
+### Code quality
+Gem | Info
+--- | ----
+[standard](https://github.com/testdouble/standard) | Ruby style guide, linter, and formatter
+
 ------------------------------------------------------------------------
 
 ## Contribution
