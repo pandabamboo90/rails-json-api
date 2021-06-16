@@ -23,6 +23,7 @@ default: &default
   host: db
   username: root
   password: password
+  port: 5433
 
 development:
   <<: *default
