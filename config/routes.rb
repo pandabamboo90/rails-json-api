@@ -27,6 +27,8 @@ Rails.application.routes.draw do
       # Features routes
       #
 
+      get "/me/profile", to: "me#profile"
+
       resources :admins
       resources :users do
         member do
