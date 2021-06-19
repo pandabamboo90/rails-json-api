@@ -2,7 +2,7 @@ module Api
   module V1
     class UsersController < MemberAuthController
       before_action :set_serializer_options, :set_serializer_klass
-      before_action :set_user, except: [:index]
+      before_action :set_user, only: [:show, :update, :destroy, :restore]
 
       # GET /users
       def index

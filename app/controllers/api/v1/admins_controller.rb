@@ -2,7 +2,7 @@ module Api
   module V1
     class AdminsController < AdminAuthController
       before_action :set_serializer_options, :set_serializer_klass
-      before_action :set_admin, except: [:index]
+      before_action :set_admin, only: [:show, :update]
 
       # GET /admins
       def index
