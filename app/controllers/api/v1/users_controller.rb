@@ -11,8 +11,8 @@ module Api
 
         if user_filter_params[:keyword].present?
           @users = @users.where("name LIKE :keyword", keyword: "%#{user_filter_params[:keyword]}%")
-                           .or(User.where(email: user_filter_params[:keyword]))
-                           .or(User.where(mobile_phone: user_filter_params[:keyword]))
+                         .or(User.where(email: user_filter_params[:keyword]))
+                         .or(User.where(mobile_phone: user_filter_params[:keyword]))
         end
 
         @users = @users.order(sort_params)
@@ -30,30 +30,43 @@ module Api
 
       # POST /users
       def create
-        @user = User.new(jsonapi_deserialize(params, only: [:name, :mobile_phone, :email, :password]))
+        User.transaction do
+          @user = User.new(jsonapi_deserialize(params, only: [:name, :mobile_phone, :email, :password]))
 
-        # Handle image upload
-        image_data = params.dig(:data, :attributes, :image, :data)
-        @user.image_data_uri = image_data if image_data.present?
+          # Handle image upload
+          image_data = params.dig(:data, :attributes, :image, :data)
+          @user.image_data_uri = image_data if image_data.present?
 
-        @user.save!
+          # Handle user's roles
+          relationships_data = jsonapi_deserialize(params, only: [:roles])
+          @user.roles << Role.where(id: relationships_data.dig("role_ids"))
+
+          @user.save!
+        end
 
         render json: @serializer_klass.new(@user, @serializer_options)
       end
 
       # PATCH/PUT /users/1
       def update
-        @user.assign_attributes(jsonapi_deserialize(params, only: [:name]))
+        User.transaction do
+          @user.assign_attributes(jsonapi_deserialize(params, only: [:name, :mobile_phone]))
 
-        # Handle image upload
-        image_data = params.dig(:data, :attributes, :image, :data)
-        @user.image_data_uri = image_data if image_data.present?
+          # Handle image upload
+          image_data = params.dig(:data, :attributes, :image, :data)
+          @user.image_data_uri = image_data if image_data.present?
 
-        # Update status lock/unlock
-        param_locked = params.dig(:data, :attributes, :locked)
-        param_locked.present? ? @user.lock : @user.unlock
+          # Update status lock/unlock
+          param_locked = params.dig(:data, :attributes, :locked)
+          param_locked.present? ? @user.lock : @user.unlock
 
-        @user.save!
+          # Handle user's roles
+          @user.roles.delete_all # Clean all current roles
+          relationships_data = jsonapi_deserialize(params, only: [:roles])
+          @user.roles << Role.where(id: relationships_data.dig("role_ids"))
+
+          @user.save!
+        end
 
         render json: @serializer_klass.new(@user, @serializer_options)
       end
@@ -61,7 +74,7 @@ module Api
       # DELETE /users/1
       def destroy
         @user.discard
-        @serializer_options[:meta] = { message: 'User destroyed !'}
+        @serializer_options[:meta] = { message: 'User destroyed !' }
 
         render json: @serializer_klass.new(@user, @serializer_options)
       end
@@ -69,7 +82,7 @@ module Api
       # PUT /users/1/restore
       def restore
         @user.undiscard
-        @serializer_options[:meta] = { message: 'User restored !'}
+        @serializer_options[:meta] = { message: 'User restored !' }
 
         render json: @serializer_klass.new(@user, @serializer_options)
       end
