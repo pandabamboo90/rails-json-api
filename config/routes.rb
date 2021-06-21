@@ -35,6 +35,7 @@ Rails.application.routes.draw do
           put "restore", to: "users#restore"
         end
       end
+      resources :roles
     end
   end
 

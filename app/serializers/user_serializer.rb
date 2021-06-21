@@ -42,11 +42,8 @@ class UserSerializer < BaseSerializer
              :locked, :locked_at,
              :created_at, :updated_at, :deleted_at
 
-  attribute :locked do |obj|
-    obj.locked_at.present?
-  end
-
-  attribute :image do |obj|
-    image_attribute(obj)
+  attribute :locked, &:locked?
+  attribute :image do |record|
+    image_attribute(record: record)
   end
 end
