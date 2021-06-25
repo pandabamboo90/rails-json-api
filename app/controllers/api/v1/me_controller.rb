@@ -5,8 +5,22 @@ module Api
       before_action :set_serializer_klass, :set_serializer_options
 
       # GET /me/profile
-      def profile
+      def show
         render json: @serializer_klass.new(current_user, @serializer_options)
+
+        # @serializer_klass = UserSerializer
+        # render json: @serializer_klass.new(User.first, @serializer_options)
+      end
+
+      # PUt /me/profile
+      def update
+        if current_user.is_a?(Admin)
+          @me = AdminServices::UpdateAdminService.call(admin: current_user, params: params)
+        elsif current_user.is_a?(User)
+          @me = AdminServices::UpdateAdminService.call(user: current_user, params: params)
+        end
+
+        render json: @serializer_klass.new(@me, @serializer_options)
       end
 
       # ----------------------------------------------------------------------------------------------------

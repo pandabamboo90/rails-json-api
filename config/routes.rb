@@ -27,7 +27,8 @@ Rails.application.routes.draw do
       # Features routes
       #
 
-      get "/me/profile", to: "me#profile"
+      get "/me/profile", to: "me#show"
+      put "/me/profile", to: "me#update"
 
       resources :admins
       resources :users do
