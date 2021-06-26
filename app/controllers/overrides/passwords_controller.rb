@@ -4,12 +4,17 @@ module Overrides
   class PasswordsController < DeviseTokenAuth::PasswordsController
     # Override Devise's errors response
     include DeviseTokenAuthMethodsConcern
+    before_action :configure_permitted_parameters
 
     # ----------------------------------------------------------------------------------------------------
     # Protected methods
     # ----------------------------------------------------------------------------------------------------
 
     protected
+
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.permit(:account_update, keys: [data: [:password, :current_password, :password_confirmation]])
+    end
 
     # Success responses
     def render_create_success
@@ -44,6 +49,18 @@ module Overrides
 
     def render_update_error_password_not_required
       render_error(400, I18n.t('devise_token_auth.passwords.password_not_required', provider: @resource.provider.humanize))
+    end
+
+
+    private
+
+    def resource_params
+      # TODO: change reset password param
+      params.permit(:email, :reset_password_token)
+    end
+
+    def password_resource_params
+      params.permit(*params_for_resource(:account_update)).dig(:data)
     end
   end
 end
