@@ -2,7 +2,7 @@ module Api
   module V1
     class AdminsController < AdminAuthController
       before_action :set_serializer_options, :set_serializer_klass
-      before_action :set_admin, only: [:show, :update]
+      before_action :set_admin, only: [:show, :update, :destroy, :restore]
 
       # GET /admins
       def index
@@ -44,6 +44,22 @@ module Api
       # PATCH/PUT /admins/1
       def update
         AdminServices::UpdateAdminService.call(admin: @admin, params: params)
+
+        render json: @serializer_klass.new(@admin, @serializer_options)
+      end
+
+      # DELETE /users/1
+      def destroy
+        @admin.discard
+        @serializer_options[:meta] = { message: 'Admin destroyed !' }
+
+        render json: @serializer_klass.new(@admin, @serializer_options)
+      end
+
+      # PUT /users/1/restore
+      def restore
+        @admin.undiscard
+        @serializer_options[:meta] = { message: 'Admin restored !' }
 
         render json: @serializer_klass.new(@admin, @serializer_options)
       end

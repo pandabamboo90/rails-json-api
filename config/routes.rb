@@ -30,7 +30,11 @@ Rails.application.routes.draw do
       get "/me/profile", to: "me#show"
       put "/me/profile", to: "me#update"
 
-      resources :admins
+      resources :admins do
+        member do
+          put "restore", to: "admins#restore"
+        end
+      end
       resources :users do
         member do
           put "restore", to: "users#restore"
