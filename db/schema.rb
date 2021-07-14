@@ -10,15 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_181922) do
+ActiveRecord::Schema.define(version: 2021_07_14_172117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "admins", force: :cascade do |t|
+    t.string "uid", null: false
+    t.string "email"
+    t.string "mobile_phone", limit: 20, null: false
+    t.text "tokens"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
+    t.string "encrypted_password", null: false
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
@@ -33,12 +39,6 @@ ActiveRecord::Schema.define(version: 2021_06_14_181922) do
     t.datetime "locked_at"
     t.string "name", null: false
     t.text "image_data"
-    t.string "email"
-    t.text "tokens"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
-    t.string "mobile_phone", limit: 20, null: false
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_admins_on_uid_and_provider", unique: true
@@ -67,18 +67,24 @@ ActiveRecord::Schema.define(version: 2021_06_14_181922) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
 
-  create_table "roles_permissions", id: false, force: :cascade do |t|
-    t.bigint "role_id"
-    t.bigint "permission_id"
+  create_table "roles_permissions", force: :cascade do |t|
+    t.bigint "role_id", null: false
+    t.bigint "permission_id", null: false
     t.index ["permission_id"], name: "index_roles_permissions_on_permission_id"
     t.index ["role_id", "permission_id"], name: "index_roles_permissions_on_role_id_and_permission_id", unique: true
     t.index ["role_id"], name: "index_roles_permissions_on_role_id"
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "uid", null: false
+    t.string "email"
+    t.string "mobile_phone", limit: 20, null: false
+    t.text "tokens"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
     t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
+    t.string "encrypted_password", null: false
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
@@ -93,12 +99,6 @@ ActiveRecord::Schema.define(version: 2021_06_14_181922) do
     t.datetime "locked_at"
     t.string "name", null: false
     t.text "image_data"
-    t.string "email"
-    t.text "tokens"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "deleted_at"
-    t.string "mobile_phone", limit: 20, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
@@ -106,11 +106,13 @@ ActiveRecord::Schema.define(version: 2021_06_14_181922) do
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "role_id"
+    t.bigint "user_id", null: false
+    t.bigint "role_id", null: false
     t.index ["role_id"], name: "index_users_roles_on_role_id"
-    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "roles_permissions", "permissions"
+  add_foreign_key "roles_permissions", "roles"
 end

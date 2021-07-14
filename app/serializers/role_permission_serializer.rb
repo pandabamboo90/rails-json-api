@@ -17,20 +17,6 @@
 #  fk_rails_...  (permission_id => permissions.id)
 #  fk_rails_...  (role_id => roles.id)
 #
-class RolePermission < ApplicationRecord
-
-  self.table_name = "roles_permissions"
-
-  # Associations
-  belongs_to :role
-  belongs_to :permission
-
-  # Validations
-  # ...
-
-  # Scopes
-  # ...
-
-  # Callbacks
-  # ...
+class RolePermissionSerializer < BaseSerializer
+  attributes :role_id, :permission_id
 end

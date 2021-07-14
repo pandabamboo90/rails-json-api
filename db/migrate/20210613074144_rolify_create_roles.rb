@@ -11,8 +11,8 @@ class RolifyCreateRoles < ActiveRecord::Migration[6.1]
     end
 
     create_table(:users_roles, id: false) do |t|
-      t.references :user
-      t.references :role
+      t.references :user, index: true, foreign: true, null: false
+      t.references :role, index: true, foreign: true, null: false
     end
 
     add_index(:roles, %i[name resource_type resource_id])

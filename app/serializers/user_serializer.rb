@@ -8,7 +8,7 @@
 #  current_sign_in_ip     :string
 #  deleted_at             :datetime
 #  email                  :string
-#  encrypted_password     :string           default(""), not null
+#  encrypted_password     :string           not null
 #  failed_attempts        :integer          default(0), not null
 #  image_data             :text
 #  last_sign_in_at        :datetime
@@ -22,7 +22,7 @@
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
 #  tokens                 :text
-#  uid                    :string           default(""), not null
+#  uid                    :string           not null
 #  unlock_token           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null

@@ -7,9 +7,6 @@ module Api
       # GET /me/profile
       def show
         render json: @serializer_klass.new(current_user, @serializer_options)
-
-        # @serializer_klass = UserSerializer
-        # render json: @serializer_klass.new(User.first, @serializer_options)
       end
 
       # PUt /me/profile

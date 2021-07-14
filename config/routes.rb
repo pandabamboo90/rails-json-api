@@ -40,7 +40,11 @@ Rails.application.routes.draw do
           put "restore", to: "users#restore"
         end
       end
-      resources :roles
+      resources :roles, only: [:index]
+      resources :permissions, only: [:index]
+
+      get "roles_permissions", to: "roles_permissions#index"
+      put "roles_permissions", to: "roles_permissions#update"
     end
   end
 
