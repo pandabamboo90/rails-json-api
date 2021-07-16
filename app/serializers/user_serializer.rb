@@ -36,7 +36,8 @@
 #
 class UserSerializer < BaseSerializer
 
-  has_many :roles, serializer: RoleSerializer
+  has_many :roles, serializer: RoleSerializer, if: proc { |record, params| param_include_has_key?(params: params, key: :roles) }
+  has_many :permissions, serializer: PermissionSerializer, if: proc { |record, params| param_include_has_key?(params: params, key: :permissions) }
 
   attributes :name, :email, :mobile_phone, :image,
              :locked, :locked_at,

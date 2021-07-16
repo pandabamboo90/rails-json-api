@@ -43,7 +43,8 @@ module Api
         @serializer_options[:include] = []
 
         if current_user.is_a?(User)
-          @serializer_options[:include].push(:roles)
+          @serializer_options[:include].push(:roles, :permissions)
+          @serializer_options[:params][:include] = @serializer_options[:include]
         end
       end
     end

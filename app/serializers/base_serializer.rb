@@ -13,4 +13,8 @@ class BaseSerializer
   def self.format_time(time:)
     time&.strftime('%H:%M')
   end
+
+  def self.param_include_has_key?(params:, key:)
+    params.dig(:include)&.include?(key) || false
+  end
 end
