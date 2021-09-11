@@ -47,9 +47,6 @@ gem 'jsonapi.rb'
 # Structure your apps seed data instead of having it all dumped into one large file
 gem 'seedbank'
 
-# For generating fake data
-gem 'faker'
-
 # Gems for logging system
 gem 'amazing_print'
 gem 'rails_semantic_logger'
@@ -60,6 +57,12 @@ gem 'goldiloader'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+
+  gem 'rspec-rails'
+  # For generating fake data
+  gem 'faker'
+  gem 'factory_bot_rails'
+  gem 'database_cleaner'
 end
 
 group :development do
