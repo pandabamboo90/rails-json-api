@@ -62,20 +62,6 @@ class User < ApplicationRecord
   has_many :permissions, through: :roles
 
   # Validations
-  # ----------------------------------------------------------------------------------------
-  # Remove Devise's uniqueness validator
-  # and replace with our own email uniqueness validator
-  # ----------------------------------------------------------------------------------------
-  class_eval do
-    _validators.delete(:email)
-
-    _validate_callbacks.each do |callback|
-      if callback.raw_filter.respond_to? :attributes
-        callback.raw_filter.attributes.delete :email
-      end
-    end
-  end
-
   validates :email, :mobile_phone, presence: true
   validates :mobile_phone, uniqueness: { case_sensitive: true }, length: 9..20, if: :mobile_phone_changed?
   # Hack to show email uniqueness error correctly instead of using Devise validation
