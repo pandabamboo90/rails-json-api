@@ -1,5 +1,5 @@
 # gets the docker image of ruby 2.7 and lets us build on top of that
-FROM ruby:3.0.1-slim
+FROM ruby:3.1.0-slim
 
 # Installation of dependencies
 RUN apt-get update -qq \

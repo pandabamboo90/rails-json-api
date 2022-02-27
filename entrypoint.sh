@@ -12,7 +12,11 @@ TAG="[entrypoint.sh] -"
 # - MIGRATE: to run only rails "db:migrate" script
 # - WEB: to run web server
 #
-CONTAINER_TYPE="WEB"
+DEFAULT_VALUE_CONTAINER_TYPE="WEB"
+CONTAINER_TYPE="${1:-$DEFAULT_VALUE_CONTAINER_TYPE}" # If CONTAINER_TYPE not set or null, use DEFAULT_VALUE_CONTAINER_TYPE
+
+DEFAULT_VALUE_PORT=3000
+PORT="${2:-$DEFAULT_VALUE_PORT}" # If PORT not set or null, use DEFAULT_VALUE_PORT
 
 # -----------------------------------------------------------------
 # The scripts
@@ -36,9 +40,8 @@ elif [ "$CONTAINER_TYPE" == "SETUP" ]; then
   echo "== $TAG Seeding data =="
   bundle exec rails db:seed
 
-  echo "== $TAG Staring web server =="
-  bundle exec rails s -b 0.0.0.0 -p 3000
+  echo "== $TAG Setup process finished =="
 else
   echo "== $TAG Staring web server =="
-  bundle exec rails s -b 0.0.0.0 -p 3000
+  bundle exec rails s -b 0.0.0.0 -p "$PORT"
 fi
